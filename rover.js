@@ -1,4 +1,5 @@
 const BEARINGS = ['N', 'E', 'S', 'W'];
+
 export default function () {
 
   let coordinates = [0, 0];
@@ -6,8 +7,8 @@ export default function () {
 
   function evaluate(commands) {
     commands.forEach(command => {
-      if (command === 'F') coordinates[1]++;
-      if (command === 'B') coordinates[1]--;
+      if (command === 'F') move(1);
+      if (command === 'B') move(-1);
       if (command === 'L') turnLeft();
       if (command === 'R') turnRight();
     });
@@ -15,6 +16,16 @@ export default function () {
 
   function getBearing(){
     return bearing;
+  }
+
+  function move(direction){
+    const setCoords = {
+      'N': () => coordinates[1] += direction,
+      'S': () => coordinates[1] -= direction,
+      'E':  () => coordinates[0] += direction,
+      'W':  () => coordinates[0] -= direction
+    };
+    setCoords[bearing].call();
   }
 
   function turnRight() {

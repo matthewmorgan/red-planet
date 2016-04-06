@@ -8,7 +8,7 @@ describe('Rover', ()=> {
     expect(rover.bearing).toEqual('N');
   });
 
-  xit('accepts an array of commands', ()=> {
+  it('accepts an array of commands', ()=> {
     const commands = ['F', 'F', 'B'];
     rover.evaluate(commands);
 

@@ -44,7 +44,7 @@ describe('Rover', ()=> {
     expect(rover.coordinates).toEqual([7, 0]);
   });
 
-  xit('wraps in the other direction', ()=> {
+  it('wraps in the other direction', ()=> {
     const commands = ['B', 'B', 'B'];
     rover.evaluate(commands);
     expect(rover.coordinates).toEqual([0, 0]);

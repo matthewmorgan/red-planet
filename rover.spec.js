@@ -5,7 +5,7 @@ describe('Rover', ()=> {
 
   it('starts at a default location', ()=> {
     expect(rover.coordinates).toEqual([0, 0]);
-    expect(rover.bearing).toEqual('N');
+    expect(rover.getBearing()).toEqual('N');
   });
 
   it('accepts an array of commands', ()=> {
@@ -13,14 +13,14 @@ describe('Rover', ()=> {
     rover.evaluate(commands);
 
     expect(rover.coordinates).toEqual([0, 1]);
-    expect(rover.bearing).toEqual('N');
+    expect(rover.getBearing()).toEqual('N');
   });
 
-  xit('accepts commands to turn left and right', ()=> {
+  it('accepts commands to turn left and right', ()=> {
     const commands = ['R', 'R', 'R', 'L'];
     rover.evaluate(commands);
 
-    expect(rover.bearing).toEqual('S');
+    expect(rover.getBearing()).toEqual('S');
     expect(rover.coordinates).toEqual([0, 1]);
   });
 

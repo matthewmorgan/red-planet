@@ -31,11 +31,11 @@ describe('Rover', ()=> {
     expect(rover.getBearing()).toEqual('S');
   });
 
-  xit('wraps in the other direction on the same axis', ()=> {
+  it('wraps in the other direction on the same axis', ()=> {
     const commands = ['B', 'B', 'B'];
     rover.evaluate(commands);
     expect(rover.coordinates).toEqual([0, 0]);
-    expect(rover.bearing).toEqual('S');
+    expect(rover.getBearing()).toEqual('S');
   });
 
   xit('wraps on the other axis as well', ()=> {
@@ -59,7 +59,7 @@ describe('Rover', ()=> {
       rover.evaluate(commands)
     }).toThrow(new Error('Obstacle encountered at [4, 7]'));
 
-    expect(rover.bearing).toEqual('E');
+    expect(rover.getBearing()).toEqual('E');
     expect(rover.coordinates).toEqual([3, 7]);
   });
 

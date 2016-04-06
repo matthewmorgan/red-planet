@@ -14,18 +14,26 @@ export default function () {
     });
   }
 
-  function getBearing(){
+  function getBearing() {
     return bearing;
   }
 
-  function move(direction){
+  function move(direction) {
     const setCoords = {
       'N': () => coordinates[1] += direction,
       'S': () => coordinates[1] -= direction,
-      'E':  () => coordinates[0] += direction,
-      'W':  () => coordinates[0] -= direction
+      'E': () => coordinates[0] += direction,
+      'W': () => coordinates[0] -= direction
     };
     setCoords[bearing].call();
+    wrapCoords();
+  }
+
+  function wrapCoords() {
+    if (coordinates[0] > 9) coordinates[0] = coordinates[0] % 10;
+    if (coordinates[0] < 0) coordinates[0] = (coordinates[0] % 10) + 10;
+    if (coordinates[1] > 9) coordinates[1] = coordinates[1] % 10;
+    if (coordinates[1] < 0) coordinates[1] = (coordinates[1] % 10) + 10;
   }
 
   function turnRight() {

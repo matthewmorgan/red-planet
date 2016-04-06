@@ -24,11 +24,11 @@ describe('Rover', ()=> {
     expect(rover.coordinates).toEqual([0, 1]);
   });
 
-  xit('location wraps from one edge of the grid to another', ()=> {
+  it('location wraps from one edge of the grid to another', ()=> {
     const commands = ['F', 'F', 'F', 'F'];
     rover.evaluate(commands);
     expect(rover.coordinates).toEqual([0, 7]);
-    expect(rover.bearing).toEqual('S');
+    expect(rover.getBearing()).toEqual('S');
   });
 
   xit('wraps in the other direction on the same axis', ()=> {

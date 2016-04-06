@@ -38,7 +38,7 @@ describe('Rover', ()=> {
     expect(rover.getBearing()).toEqual('S');
   });
 
-  xit('wraps on the other axis as well', ()=> {
+  it('wraps on the other axis as well', ()=> {
     const commands = ['R', 'F', 'F', 'F'];
     rover.evaluate(commands);
     expect(rover.coordinates).toEqual([7, 0]);

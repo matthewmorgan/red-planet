@@ -7,9 +7,12 @@ export default function (c, b) {
   let coordinates = c || [0, 0];
   let bearing = b || BEARINGS[0];
 
-  if (coordinates[0] < 0 || coordinates[0] > HORIZONTAL_GRID_SIZE) throw new Error('Illegal starting position.');
-  if (coordinates[1] < 0 || coordinates[1] > VERTICAL_GRID_SIZE) throw new Error('Illegal starting position.');
-  if (BEARINGS.indexOf(bearing) < 0) throw new Error('Illegal starting bearing.');
+  if (coordinates[0] < 0 || coordinates[0] > HORIZONTAL_GRID_SIZE)
+    throw new Error('Illegal starting position.');
+  if (coordinates[1] < 0 || coordinates[1] > VERTICAL_GRID_SIZE)
+    throw new Error('Illegal starting position.');
+  if (BEARINGS.indexOf(bearing) < 0)
+    throw new Error('Illegal starting bearing.');
 
   const obstacles = {};
 
@@ -49,9 +52,9 @@ export default function (c, b) {
   }
 
   function wrapCoords() {
-    if (coordinates[0] > 9) coordinates[0] = coordinates[0] % HORIZONTAL_GRID_SIZE;
+    if (coordinates[0] > HORIZONTAL_GRID_SIZE-1) coordinates[0] = coordinates[0] % HORIZONTAL_GRID_SIZE;
     if (coordinates[0] < 0) coordinates[0] = (coordinates[0] % HORIZONTAL_GRID_SIZE) + HORIZONTAL_GRID_SIZE;
-    if (coordinates[1] > 9) coordinates[1] = coordinates[1] % VERTICAL_GRID_SIZE;
+    if (coordinates[1] > VERTICAL_GRID_SIZE-1) coordinates[1] = coordinates[1] % VERTICAL_GRID_SIZE;
     if (coordinates[1] < 0) coordinates[1] = (coordinates[1] % VERTICAL_GRID_SIZE) + VERTICAL_GRID_SIZE;
   }
 

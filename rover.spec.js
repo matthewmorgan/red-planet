@@ -55,13 +55,13 @@ describe('Rover', ()=> {
     const obstacleCoordinates = [0, 4];
     rover.setObstacle(obstacleCoordinates);
 
-    const commands = ['L','R', 'R', 'F', 'F', 'F', 'F'];
+    const commands = ['L', 'R', 'R', 'F', 'F', 'F', 'F'];
     expect(() => {
       rover.evaluate(commands)
     }).toThrow(new Error('Obstacle encountered at [0, 4]'));
 
     expect(rover.getBearing()).toEqual('N');
-    expect(rover.getPosition()).toEqual([0,3]);
+    expect(rover.getPosition()).toEqual([0, 3]);
   });
 
 });

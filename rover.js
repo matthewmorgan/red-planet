@@ -19,9 +19,10 @@ export default function () {
     return bearing;
   }
 
-  function getPosition(){
+  function getPosition() {
     return coordinates;
   }
+
   function move(direction) {
     const setCoords = {
       'N': () => coordinates[1] += direction,
@@ -33,7 +34,6 @@ export default function () {
     setCoords[bearing].call();
     const key = JSON.stringify(coordinates);
     if (obstacles[key]) {
-      console.log('oldCoords were ' + oldCoords);
       const message = 'Obstacle encountered at [' + coordinates[0] + ', ' + coordinates[1] + ']';
       coordinates = [oldCoords[0], oldCoords[1]];
       throw new Error(message);

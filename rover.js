@@ -1,9 +1,16 @@
 const BEARINGS = ['N', 'E', 'S', 'W'];
+const VERTICAL_GRID_SIZE = 10;
+const HORIZONTAL_GRID_SIZE = 10;
 
 export default function (c, b) {
 
   let coordinates = c || [0, 0];
   let bearing = b || BEARINGS[0];
+
+  if (coordinates[0] < 0 || coordinates[0] > HORIZONTAL_GRID_SIZE) throw new Error('Illegal starting position.');
+  if (coordinates[1] < 0 || coordinates[1] > VERTICAL_GRID_SIZE) throw new Error('Illegal starting position.');
+  if (BEARINGS.indexOf(bearing) < 0) throw new Error('Illegal starting bearing.');
+
   const obstacles = {};
 
   function evaluate(commands) {
@@ -42,21 +49,21 @@ export default function (c, b) {
   }
 
   function wrapCoords() {
-    if (coordinates[0] > 9) coordinates[0] = coordinates[0] % 10;
-    if (coordinates[0] < 0) coordinates[0] = (coordinates[0] % 10) + 10;
-    if (coordinates[1] > 9) coordinates[1] = coordinates[1] % 10;
-    if (coordinates[1] < 0) coordinates[1] = (coordinates[1] % 10) + 10;
+    if (coordinates[0] > 9) coordinates[0] = coordinates[0] % HORIZONTAL_GRID_SIZE;
+    if (coordinates[0] < 0) coordinates[0] = (coordinates[0] % HORIZONTAL_GRID_SIZE) + HORIZONTAL_GRID_SIZE;
+    if (coordinates[1] > 9) coordinates[1] = coordinates[1] % VERTICAL_GRID_SIZE;
+    if (coordinates[1] < 0) coordinates[1] = (coordinates[1] % VERTICAL_GRID_SIZE) + VERTICAL_GRID_SIZE;
   }
 
   function turnRight() {
     const currentBearingIndex = BEARINGS.indexOf(bearing);
-    const newBearingIndex = (currentBearingIndex + 1) % 4;
+    const newBearingIndex = (currentBearingIndex + 1) % BEARINGS.length;
     bearing = BEARINGS[newBearingIndex];
   }
 
   function turnLeft() {
     const currentBearingIndex = BEARINGS.indexOf(bearing);
-    const newBearingIndex = (currentBearingIndex - 1) % 4;
+    const newBearingIndex = (currentBearingIndex + 3) % BEARINGS.length;
     bearing = BEARINGS[newBearingIndex];
   }
 

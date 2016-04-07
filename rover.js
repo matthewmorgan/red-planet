@@ -1,9 +1,9 @@
 const BEARINGS = ['N', 'E', 'S', 'W'];
 
-export default function () {
+export default function (c, b) {
 
-  let coordinates = [0, 0];
-  let bearing = BEARINGS[0];
+  let coordinates = c || [0, 0];
+  let bearing = b || BEARINGS[0];
   const obstacles = {};
 
   function evaluate(commands) {

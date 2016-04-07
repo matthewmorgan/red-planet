@@ -4,7 +4,7 @@ describe('Rover', ()=> {
   let rover = new Rover();
 
   it('starts at a default location', ()=> {
-    expect(rover.coordinates).toEqual([0, 0]);
+    expect(rover.getPosition()).toEqual([0, 0]);
     expect(rover.getBearing()).toEqual('N');
   });
 
@@ -12,7 +12,7 @@ describe('Rover', ()=> {
     const commands = ['F', 'F', 'B'];
     rover.evaluate(commands);
 
-    expect(rover.coordinates).toEqual([0, 1]);
+    expect(rover.getPosition()).toEqual([0, 1]);
     expect(rover.getBearing()).toEqual('N');
   });
 
@@ -21,46 +21,47 @@ describe('Rover', ()=> {
     rover.evaluate(commands);
 
     expect(rover.getBearing()).toEqual('S');
-    expect(rover.coordinates).toEqual([0, 1]);
+    expect(rover.getPosition()).toEqual([0, 1]);
   });
 
   it('location wraps from one edge of the grid to another', ()=> {
     const commands = ['F', 'F', 'F', 'F'];
     rover.evaluate(commands);
-    expect(rover.coordinates).toEqual([0, 7]);
+    expect(rover.getPosition()).toEqual([0, 7]);
     expect(rover.getBearing()).toEqual('S');
   });
 
   it('wraps in the other direction on the same axis', ()=> {
     const commands = ['B', 'B', 'B'];
     rover.evaluate(commands);
-    expect(rover.coordinates).toEqual([0, 0]);
+    expect(rover.getPosition()).toEqual([0, 0]);
     expect(rover.getBearing()).toEqual('S');
   });
 
   it('wraps on the other axis as well', ()=> {
     const commands = ['R', 'F', 'F', 'F'];
     rover.evaluate(commands);
-    expect(rover.coordinates).toEqual([7, 0]);
+    expect(rover.getPosition()).toEqual([7, 0]);
+    expect(rover.getBearing()).toEqual('W');
   });
 
   it('wraps in the other direction', ()=> {
     const commands = ['B', 'B', 'B'];
     rover.evaluate(commands);
-    expect(rover.coordinates).toEqual([0, 0]);
+    expect(rover.getPosition()).toEqual([0, 0]);
   });
 
-  xit('detects and reports obstacles in location ahead', ()=> {
-    const obstacleCoordinates = [4, 7];
+  it('detects and reports obstacles in location ahead', ()=> {
+    const obstacleCoordinates = [0, 4];
     rover.setObstacle(obstacleCoordinates);
 
-    const commands = ['R', 'R', 'F', 'F', 'F', 'F'];
+    const commands = ['L','R', 'R', 'F', 'F', 'F', 'F'];
     expect(() => {
       rover.evaluate(commands)
-    }).toThrow(new Error('Obstacle encountered at [4, 7]'));
+    }).toThrow(new Error('Obstacle encountered at [0, 4]'));
 
-    expect(rover.getBearing()).toEqual('E');
-    expect(rover.coordinates).toEqual([3, 7]);
+    expect(rover.getBearing()).toEqual('N');
+    expect(rover.getPosition()).toEqual([0,3]);
   });
 
 });

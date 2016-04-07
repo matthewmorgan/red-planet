@@ -4,6 +4,7 @@ export default function () {
 
   let coordinates = [0, 0];
   let bearing = BEARINGS[0];
+  const obstacles = {};
 
   function evaluate(commands) {
     commands.forEach(command => {
@@ -18,6 +19,9 @@ export default function () {
     return bearing;
   }
 
+  function getPosition(){
+    return coordinates;
+  }
   function move(direction) {
     const setCoords = {
       'N': () => coordinates[1] += direction,
@@ -25,7 +29,15 @@ export default function () {
       'E': () => coordinates[0] += direction,
       'W': () => coordinates[0] -= direction
     };
+    const oldCoords = [coordinates[0], coordinates[1]];
     setCoords[bearing].call();
+    const key = JSON.stringify(coordinates);
+    if (obstacles[key]) {
+      console.log('oldCoords were ' + oldCoords);
+      const message = 'Obstacle encountered at [' + coordinates[0] + ', ' + coordinates[1] + ']';
+      coordinates = [oldCoords[0], oldCoords[1]];
+      throw new Error(message);
+    }
     wrapCoords();
   }
 
@@ -48,5 +60,9 @@ export default function () {
     bearing = BEARINGS[newBearingIndex];
   }
 
-  return {coordinates, getBearing, evaluate};
+  function setObstacle(obstacle) {
+    obstacles[JSON.stringify(obstacle)] = true;
+  }
+
+  return {coordinates, getBearing, getPosition, evaluate, setObstacle};
 };

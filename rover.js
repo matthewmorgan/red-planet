@@ -1,10 +1,10 @@
 const BEARINGS = ['N', 'E', 'S', 'W'];
-const VERTICAL_GRID_SIZE = 10;
-const HORIZONTAL_GRID_SIZE = 10;
+const V_GRID_SIZE = 10;
+const H_GRID_SIZE = 10;
 
 export default function (c, b) {
 
-  let coordinates = c || [0, 0];
+  let pos = c || [0, 0];
   let bearing = b || BEARINGS[0];
 
   throwOnIllegalStartingParameters();
@@ -25,24 +25,24 @@ export default function (c, b) {
   }
 
   function getPosition() {
-    return coordinates;
+    return pos;
   }
 
   function move(direction) {
     const setCoords = {
-      'N': () => coordinates[1] += direction,
-      'S': () => coordinates[1] -= direction,
-      'E': () => coordinates[0] += direction,
-      'W': () => coordinates[0] -= direction
+      'N': () => pos[1] += direction,
+      'S': () => pos[1] -= direction,
+      'E': () => pos[0] += direction,
+      'W': () => pos[0] -= direction
     };
 
-    const oldCoords = [coordinates[0], coordinates[1]];
+    const oldCoords = [pos[0], pos[1]];
     setCoords[bearing].call();
 
-    const key = JSON.stringify(coordinates);
+    const key = JSON.stringify(pos);
     if (obstacles[key]) {
-      const message = `Obstacle encountered at [${coordinates[0]}, ${coordinates[1]}]`;
-      coordinates = [oldCoords[0], oldCoords[1]];
+      const message = `Obstacle encountered at [${pos[0]}, ${pos[1]}]`;
+      pos = [oldCoords[0], oldCoords[1]];
       throw new Error(message);
     }
 
@@ -50,10 +50,10 @@ export default function (c, b) {
   }
 
   function wrapCoords() {
-    if (coordinates[0] > HORIZONTAL_GRID_SIZE-1) coordinates[0] = coordinates[0] % HORIZONTAL_GRID_SIZE;
-    if (coordinates[0] < 0) coordinates[0] = (coordinates[0] % HORIZONTAL_GRID_SIZE) + HORIZONTAL_GRID_SIZE;
-    if (coordinates[1] > VERTICAL_GRID_SIZE-1) coordinates[1] = coordinates[1] % VERTICAL_GRID_SIZE;
-    if (coordinates[1] < 0) coordinates[1] = (coordinates[1] % VERTICAL_GRID_SIZE) + VERTICAL_GRID_SIZE;
+    if (pos[0] > H_GRID_SIZE-1) pos[0] = pos[0] % H_GRID_SIZE;
+    if (pos[0] < 0) pos[0] = (pos[0] % H_GRID_SIZE) + H_GRID_SIZE;
+    if (pos[1] > V_GRID_SIZE-1) pos[1] = pos[1] % V_GRID_SIZE;
+    if (pos[1] < 0) pos[1] = (pos[1] % V_GRID_SIZE) + V_GRID_SIZE;
   }
 
   function turnRight() {
@@ -77,16 +77,16 @@ export default function (c, b) {
   }
 
   function throwOnIllegalStartingParameters(){
-    if (coordinates[0] < 0 || coordinates[0] > HORIZONTAL_GRID_SIZE){
+    if (pos[0] < 0 || pos[0] > H_GRID_SIZE){
       throw new Error('Illegal starting position.');
     }
-    if (coordinates[1] < 0 || coordinates[1] > VERTICAL_GRID_SIZE){
+    if (pos[1] < 0 || pos[1] > V_GRID_SIZE){
       throw new Error('Illegal starting position.');
     }
     if (BEARINGS.indexOf(bearing) < 0){
       throw new Error('Illegal starting bearing.');
     }
   }
-  
-  return {coordinates, getBearing, getPosition, evaluate, setObstacle};
+
+  return {pos, getBearing, getPosition, evaluate, setObstacle};
 };

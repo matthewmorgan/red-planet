@@ -7,12 +7,7 @@ export default function (c, b) {
   let coordinates = c || [0, 0];
   let bearing = b || BEARINGS[0];
 
-  if (coordinates[0] < 0 || coordinates[0] > HORIZONTAL_GRID_SIZE)
-    throw new Error('Illegal starting position.');
-  if (coordinates[1] < 0 || coordinates[1] > VERTICAL_GRID_SIZE)
-    throw new Error('Illegal starting position.');
-  if (BEARINGS.indexOf(bearing) < 0)
-    throw new Error('Illegal starting bearing.');
+  throwOnIllegalStartingParameters();
 
   const obstacles = {};
 
@@ -40,14 +35,17 @@ export default function (c, b) {
       'E': () => coordinates[0] += direction,
       'W': () => coordinates[0] -= direction
     };
+
     const oldCoords = [coordinates[0], coordinates[1]];
     setCoords[bearing].call();
+
     const key = JSON.stringify(coordinates);
     if (obstacles[key]) {
-      const message = 'Obstacle encountered at [' + coordinates[0] + ', ' + coordinates[1] + ']';
+      const message = `Obstacle encountered at [${coordinates[0]}, ${coordinates[1]}]`;
       coordinates = [oldCoords[0], oldCoords[1]];
       throw new Error(message);
     }
+
     wrapCoords();
   }
 
@@ -74,5 +72,21 @@ export default function (c, b) {
     obstacles[JSON.stringify(obstacle)] = true;
   }
 
+  function clearObstacle(obstacle){
+    delete obstacles[JSON.stringify(obstacle)];
+  }
+
+  function throwOnIllegalStartingParameters(){
+    if (coordinates[0] < 0 || coordinates[0] > HORIZONTAL_GRID_SIZE){
+      throw new Error('Illegal starting position.');
+    }
+    if (coordinates[1] < 0 || coordinates[1] > VERTICAL_GRID_SIZE){
+      throw new Error('Illegal starting position.');
+    }
+    if (BEARINGS.indexOf(bearing) < 0){
+      throw new Error('Illegal starting bearing.');
+    }
+  }
+  
   return {coordinates, getBearing, getPosition, evaluate, setObstacle};
 };
